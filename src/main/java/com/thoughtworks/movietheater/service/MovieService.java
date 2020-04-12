@@ -12,8 +12,7 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Movie findByName(int id) {
-        Optional<Movie> byId = movieRepository.findById(id);
-        return byId.orElse(null);
+    public Movie findById(int id) {
+        return movieRepository.findById(id).orElse(null);
     }
 }

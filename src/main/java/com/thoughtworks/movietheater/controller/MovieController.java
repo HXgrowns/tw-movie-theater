@@ -15,6 +15,6 @@ public class MovieController {
 
     @GetMapping(value = "/findById")
     public Movie findById(int id) {
-        return movieService.findByName(id);
+        return movieService.findById(id);
     }
 }
