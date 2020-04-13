@@ -40,4 +40,24 @@ public class MovieController {
 
     return mvByTagMap;
   }
+
+  @GetMapping(value = "/findAllByPage")
+  public Map<String, List<?>> findAllByPage(@RequestParam(name = "start") int start,
+                                            @RequestParam(name = "count") int count) {
+    return movieService.findAllByPage(start, count);
+  }
+
+  @GetMapping(value = "/findByKeyword")
+  public Map<String, List<?>> findByKeyword(@RequestParam(name = "keyword") String keyword,
+                                            @RequestParam(name = "start") int start,
+                                            @RequestParam(name = "count") int count) {
+    return movieService.findByKeyword(keyword, start, count);
+  }
+
+  @GetMapping(value = "/findByClassification")
+  public Map<String, List<?>> findByClassification(@RequestParam(name = "classification") String classification,
+                                                   @RequestParam(name = "start") int start,
+                                                   @RequestParam(name = "count") int count) {
+    return movieService.findByClassification(classification, start, count);
+  }
 }
