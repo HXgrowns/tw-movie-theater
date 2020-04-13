@@ -3,9 +3,7 @@ package com.thoughtworks.movietheater.controller;
 import com.thoughtworks.movietheater.entity.Movie;
 import com.thoughtworks.movietheater.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,12 +14,13 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping(value = "/findById")
-    public Movie findById(int id) {
+    public Movie findById(@PathVariable int id) {
         return movieService.findById(id);
     }
 
     @GetMapping(value = "/findAllByPage")
-    public List<Movie> findAllByPage(int currentPage, int linesize) {
+    public List<Movie> findAllByPage(@RequestParam(name = "currentPage") int currentPage,
+                                     @RequestParam(name = "linesize") int linesize) {
         return movieService.findAllByPage(currentPage, linesize);
     }
 }

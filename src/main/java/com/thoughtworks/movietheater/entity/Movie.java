@@ -32,12 +32,8 @@ public class Movie {
     private String image;
     @Column("summary")
     private String summary;
-    @Column("top250")
-    private boolean top250;
-    @Column("in_theater")
-    private boolean inTheater;
-    @Column("coming_soon")
-    private boolean comingSoon;
+    @Column("movie_classification")
+    private int classification;
 
     public int getId() {
         return id;
@@ -87,15 +83,7 @@ public class Movie {
         return summary;
     }
 
-    public boolean isTop250() {
-        return top250;
-    }
-
-    public boolean isInTheater() {
-        return inTheater;
-    }
-
-    public boolean isComingSoon() {
-        return comingSoon;
+    public int getClassification() {
+        return classification;
     }
 }
