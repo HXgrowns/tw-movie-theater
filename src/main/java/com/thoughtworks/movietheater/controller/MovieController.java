@@ -3,7 +3,6 @@ package com.thoughtworks.movietheater.controller;
 import com.thoughtworks.movietheater.entity.Movie;
 import com.thoughtworks.movietheater.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,15 +20,22 @@ public class MovieController {
     }
 
     @GetMapping(value = "/findAllByPage")
-    public Map<String, List<?>> findAllByPage(@RequestParam(name = "currentPage") int currentPage,
-                                              @RequestParam(name = "linesize") int linesize) {
-        return movieService.findAllByPage(currentPage, linesize);
+    public Map<String, List<?>> findAllByPage(@RequestParam(name = "start") int start,
+                                              @RequestParam(name = "count") int count) {
+        return movieService.findAllByPage(start, count);
     }
 
     @GetMapping(value = "/findByKeyword")
     public Map<String, List<?>> findByKeyword(@RequestParam(name = "keyword") String keyword,
-                                              @RequestParam(name = "currentPage") int currentPage,
-                                              @RequestParam(name = "linesize") int linesize) {
-        return movieService.findByKeyword(keyword, currentPage, linesize);
+                                              @RequestParam(name = "start") int start,
+                                              @RequestParam(name = "count") int count) {
+        return movieService.findByKeyword(keyword, start, count);
+    }
+
+    @GetMapping(value = "/findByClassification")
+    public Map<String, List<?>> findByClaasification(@RequestParam(name = "classification") String classification,
+                                                     @RequestParam(name = "start") int start,
+                                                     @RequestParam(name = "count") int count) {
+        return movieService.findByClassification(classification, start, count);
     }
 }

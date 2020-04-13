@@ -12,13 +12,19 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
     @Query("SELECT COUNT(id) from movie")
     int calculateAllCount();
 
-    @Query("SELECT * FROM movie LIMIT :currentPage, :linesize")
-    List<Movie> findAllByPage(int currentPage, int linesize);
+    @Query("SELECT * FROM movie LIMIT :start, :count")
+    List<Movie> findAllByPage(int start, int count);
 
     @Query("SELECT COUNT(id) from movie WHERE title LIKE :keyword")
     int calculateCountByKeyword(String keyword);
 
-    @Query("SELECT * FROM movie WHERE title LIKE :keyword LIMIT :currentPage, :linesize")
-    List<Movie> findByKeyword(String keyword, int currentPage, int linesize);
+    @Query("SELECT * FROM movie WHERE title LIKE :keyword LIMIT :start, :count")
+    List<Movie> findByKeyword(String keyword, int start, int count);
+
+    @Query("SELECT COUNT(id) from movie WHERE classification = :classfyId")
+    int calculateCountByClassification(int classfyId);
+
+    @Query("SELECT * FROM movie WHERE classification = :classfyId LIMIT :start, :count")
+    List<Movie> findByClassification(int classfyId, int start, int count);
 
 }
