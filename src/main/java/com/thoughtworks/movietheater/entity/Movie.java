@@ -26,20 +26,64 @@ public class Movie {
     private String[] casts;
     @Column("genres")
     private String[] genres;
+    @Column("durations")
+    private String durations;
     @Column("image")
     private String image;
+    @Column("summary")
+    private String summary;
+    @Column("movie_classification")
+    private int classification;
 
-    public Movie(int id, String alt, Date year, String title, float rating, String originalTitle, String directors, String casts, String genres, String image) {
-        this.id = id;
-        this.alt = alt;
-        this.year = year;
-        this.title = title;
-        this.rating = rating;
-        this.originalTitle = originalTitle;
-        this.directors = directors.split(",");
-        this.casts = casts.split(",");
-        this.genres = genres.split(",");
-        this.image = image;
+    public int getId() {
+        return id;
     }
 
+    public String getAlt() {
+        return alt;
+    }
+
+    public Date getYear() {
+        return year;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public String[] getDirectors() {
+        return directors;
+    }
+
+    public String[] getCasts() {
+        return casts;
+    }
+
+    public String[] getGenres() {
+        return genres;
+    }
+
+    public String getDurations() {
+        return durations;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public int getClassification() {
+        return classification;
+    }
 }
