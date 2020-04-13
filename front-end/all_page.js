@@ -270,22 +270,22 @@ const pageTurning = pageButton => {
   whichWinType(page);
 }
 
-const allDataStorage = async function () {
-  await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=96')
-  .then(response => {
-    sessionStorage.setItem('key1', JSON.stringify(response.data));
-  });
+// const allDataStorage = async function () {
+//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=96')
+//   .then(response => {
+//     sessionStorage.setItem('key1', JSON.stringify(response.data));
+//   });
 
-  await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=96&count=96')
-  .then(response => {
-    sessionStorage.setItem('key2', JSON.stringify(response.data));
-  });
+//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=96&count=96')
+//   .then(response => {
+//     sessionStorage.setItem('key2', JSON.stringify(response.data));
+//   });
 
-  await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=192&count=58')
-  .then(response => {
-    sessionStorage.setItem('key3', JSON.stringify(response.data));
-  });
-}
+//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=192&count=58')
+//   .then(response => {
+//     sessionStorage.setItem('key3', JSON.stringify(response.data));
+//   });
+// }
 
 const search = () => {
   let searchContent = document.getElementById('search-input').value;
@@ -296,8 +296,13 @@ const whichWinType = page => {
   let pageSuffix = decodeURIComponent(document.location.search);
 
   if (pageSuffix === '') {
-    let data = JSON.parse(sessionStorage.getItem('key'));
-    show24Item(data, page);
+    let link = `http://localhost:8080/movie/findAllByPage/?start=${(page - 1) * 24}&count=24`;
+    axios.get(link).then(response => {
+      let data = JSON.parse(response.data);
+      let mvData = data.subjects;
+      let totalCount = data.count;
+      show24Item(mvData, page, totalCount);
+    })
   }
 
   if (pageSuffix.split('=')[0] === '?keyword') {
@@ -310,36 +315,48 @@ const whichWinType = page => {
 }
 
 const searchPage = (page, keyword) => {
-  let data = JSON.parse(sessionStorage.getItem('key'));
-    let searchMv = data.filter(ele => {
-      return Boolean(ele.title.match(keyword));
-    });
-
-    if(searchMv.length === 0) {
+  let link = `http://localhost:8080/movie/findByKeyword/?keyword=${keyword}&start=${(page - 1) * 24}&count=24`;
+  axios.get(link).then(response => {
+    let data = JSON.parse(response.data);
+    let mvData = data.subjects;
+    let totalCount = data.count;
+    if (mvData.length === 0) {
       document.getElementById('content').innerHTML = '没有找到任何相关影片';
     }else {
-      show24Item(searchMv, page);
+      show24Item(searchMv, page, totalCount);
     }
-}
-
-const tagPage = (page, tag) => {
-  let data = JSON.parse(sessionStorage.getItem('key'));
-  let tagMv = data.filter(ele => {
-    return (ele.genres.indexOf(tag) !== -1);
   });
-
-  if(tagMv.length === 0) {
-    return document.getElementById('content').innerHTML = '没有找到任何相关影片';
-  }else {
-    show24Item(tagMv, page);
-  }
 }
 
-const show24Item = (data, page) => {
-  let partMv = {};
-  partMv.subjects = data.slice(((page - 1) * 24), page * 24);
-  contentShow(partMv);
-  let pageTotalCount = Math.ceil(data.length / 24);
+// const tagPage = (page, tag) => {
+//   let data = JSON.parse(sessionStorage.getItem('key'));
+//   let tagMv = data.filter(ele => {
+//     return (ele.genres.indexOf(tag) !== -1);
+//   });
+
+//   if(tagMv.length === 0) {
+//     return document.getElementById('content').innerHTML = '没有找到任何相关影片';
+//   }else {
+//     show24Item(tagMv, page);
+//   }
+// }
+const tagPage = (page, tag) => {
+  let link = `http://localhost:8080/movie/findByTag/${encodeURI(tag)}?start=${(page - 1) * 24}&count=24`;
+  axios.get(link).then(response => {
+    let data = JSON.parse(response.data);
+    let mvData = data.subjects;
+    let totalCount = data.count;
+    if (mvData.length === 0) {
+      document.getElementById('content').innerHTML = '没有找到任何相关影片';
+    }else {
+      show24Item(searchMv, page, totalCount);
+    }
+  });
+}
+
+const show24Item = (data, page, totalCount) => {
+  contentShow(data);
+  let pageTotalCount = Math.ceil(totalCount / 24);
   pageTurningStyle(page, pageTotalCount);
   return (document.getElementById('next-page').setAttribute('name', `next${page}`));
 }
@@ -352,20 +369,25 @@ const allOpen = () => {
   return window.open('all_page.html');
 }
 
-window.onload = function () {
-  if (!sessionStorage.getItem('key')) {
-    allDataStorage().then(() => {
-      let allJsonData = [];
-      for (let i = 1; i <= 3; i++) {
-        allJsonData = allJsonData.concat(JSON.parse(sessionStorage.getItem(`key${i}`)).subjects);
-      }
-      sessionStorage.setItem('key', JSON.stringify(allJsonData));
-    }).then(() => {
-      pageTurning();
-    });
-  }else {
-    pageTurning();
-  }
+// window.onload = function () {
+//   if (!sessionStorage.getItem('key')) {
+//     allDataStorage().then(() => {
+//       let allJsonData = [];
+//       for (let i = 1; i <= 3; i++) {
+//         allJsonData = allJsonData.concat(JSON.parse(sessionStorage.getItem(`key${i}`)).subjects);
+//       }
+//       sessionStorage.setItem('key', JSON.stringify(allJsonData));
+//     }).then(() => {
+//       pageTurning();
+//     });
+//   }else {
+//     pageTurning();
+//   }
 
+//   banner();
+// }
+
+window.onload = function () {
+  pageTurning();
   banner();
 }
