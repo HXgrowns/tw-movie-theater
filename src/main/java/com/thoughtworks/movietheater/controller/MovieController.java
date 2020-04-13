@@ -1,5 +1,6 @@
 package com.thoughtworks.movietheater.controller;
 
+import com.thoughtworks.movietheater.entity.Cast;
 import com.thoughtworks.movietheater.entity.Movie;
 import com.thoughtworks.movietheater.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class MovieController {
                                                      @RequestParam(name = "start") int start,
                                                      @RequestParam(name = "count") int count) {
         return movieService.findByClassification(classification, start, count);
+    }
+
+    @GetMapping(value = "/findCastsByMovieId")
+    public List<Cast> findCastsByMovieId(@RequestParam(name = "movieId") int movieId) {
+        return movieService.findCastsByMovieId(movieId);
     }
 }

@@ -1,6 +1,8 @@
 package com.thoughtworks.movietheater.service;
 
+import com.thoughtworks.movietheater.entity.Cast;
 import com.thoughtworks.movietheater.entity.Movie;
+import com.thoughtworks.movietheater.repository.CastRepository;
 import com.thoughtworks.movietheater.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ import java.util.*;
 public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private CastRepository castRepository;
 
     public Movie findById(int id) {
         return movieRepository.findById(id).orElse(null);
@@ -28,8 +32,8 @@ public class MovieService {
 
     public Map<String, List<?>> findByKeyword(String keyword, int start, int count) {
         Map<String, List<?>> countAndMovies = new HashMap<>();
-        int keywordCount = movieRepository.calculateCountByKeyword("%" + keyword + "%");
-        List<Movie> movies = movieRepository.findByKeyword("%" + keyword + "%", start, count);
+        int keywordCount = movieRepository.calculateCountByKeyword(keyword);
+        List<Movie> movies = movieRepository.findByKeyword(keyword, start, count);
 
         countAndMovies.put("count", Collections.singletonList(keywordCount));
         countAndMovies.put("subject", movies);
@@ -60,5 +64,23 @@ public class MovieService {
         countAndMovies.put("count", Collections.singletonList(classfyCount));
         countAndMovies.put("subject", movies);
         return countAndMovies;
+    }
+
+    public List<Cast> findCastsByMovieId(int movieId) {
+        List<Cast> casts = new ArrayList<>();
+
+        Movie movie = movieRepository.findById(movieId).orElse(null);
+        if (movie == null) {
+            return casts;
+        }
+
+        for (String name : movie.getCasts()) {
+            Cast cast = castRepository.findCastByName(name);
+            if (cast != null) {
+                casts.add(cast);
+            }
+        }
+
+        return casts;
     }
 }
