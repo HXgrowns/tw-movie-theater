@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
@@ -16,5 +18,10 @@ public class MovieController {
     @GetMapping(value = "/findById")
     public Movie findById(int id) {
         return movieService.findById(id);
+    }
+
+    @GetMapping(value = "/findAllByPage")
+    public List<Movie> findAllByPage(int currentPage, int linesize) {
+        return movieService.findAllByPage(currentPage, linesize);
     }
 }
