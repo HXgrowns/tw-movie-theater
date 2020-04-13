@@ -92,12 +92,12 @@ const contentShow = (data) => {
   let mvContent = document.getElementById('mv-content');
   mvContent.innerHTML = '';
 
-  data.subjects.map((ele) => {
+  data.map((ele) => {
     mvContent.innerHTML += `<div class='mv-unit' id="${ele.id}" onclick="subPageListen(this)">
-      <img src="${ele.images.small}" />
+      <img src="${ele.image}" />
       <div class='mv-title'>
         <p>${ele.title}</p>
-        <strong>${ele.rating.average}</strong>
+        <strong>${ele.rating}</strong>
       </div>
     </div>
   `;
@@ -109,18 +109,17 @@ const recommendShow = data => {
 
   let recommendContent = document.createElement('div');
   recommendContent.setAttribute('class', 'recommend-content')
-  recommendContent.innerHTML = `<p class="recommend-title">${data.title}</p>
-  `;
+  recommendContent.innerHTML = `<p class="recommend-title">${data.title}</p>`;
 
   let recommendPart =document.createElement('div');
   recommendPart.setAttribute('class', 'recommend-part');
 
   data.subjects.map((ele) => {
     recommendPart.innerHTML += `<div class="mv-unit" onclick="subPageListen(this)" id="${ele.id}">
-      <img src="${ele.images.small}" />
+      <img src="${ele.images}" />
       <div class='mv-title'>
         <p>${ele.title}</p>
-        <strong>${ele.rating.average}</strong>
+        <strong>${ele.rating}</strong>
       </div>
     </div>
     `
@@ -133,9 +132,9 @@ const recommendShow = data => {
 const recommendListen = () => {
   let content = document.getElementById('content');
   content.innerHTML = '';
-  let recommendlink = ['https://douban.uieee.com/v2/movie/in_theaters&start=0&count=12',
-    'https://douban.uieee.com/v2/movie/top250&start=0&count=12',
-    'https://douban.uieee.com/v2/movie/coming_soon&start=0&count=12'
+  let recommendlink = ['http://localhost:8080/movie/findByClassification/in_theater?start=0&count=12',
+    'http://localhost:8080/movie/findByClassification/coming_soon?start=0&count=12',
+    'http://localhost:8080/movie/findByClassification/top250?start=0&count=12'
   ];
 
   recommendlink.map(link => {
@@ -270,23 +269,6 @@ const pageTurning = pageButton => {
   whichWinType(page);
 }
 
-// const allDataStorage = async function () {
-//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=96')
-//   .then(response => {
-//     sessionStorage.setItem('key1', JSON.stringify(response.data));
-//   });
-
-//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=96&count=96')
-//   .then(response => {
-//     sessionStorage.setItem('key2', JSON.stringify(response.data));
-//   });
-
-//   await axios.get('https://douban.uieee.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start=192&count=58')
-//   .then(response => {
-//     sessionStorage.setItem('key3', JSON.stringify(response.data));
-//   });
-// }
-
 const search = () => {
   let searchContent = document.getElementById('search-input').value;
   return window.open(`all_page.html?keyword=${searchContent}`);
@@ -298,11 +280,10 @@ const whichWinType = page => {
   if (pageSuffix === '') {
     let link = `http://localhost:8080/movie/findAllByPage/?start=${(page - 1) * 24}&count=24`;
     axios.get(link).then(response => {
-      let data = JSON.parse(response.data);
-      let mvData = data.subjects;
-      let totalCount = data.count;
+      let mvData = response.data.subjects;
+      let totalCount = response.data.count[0];
       show24Item(mvData, page, totalCount);
-    })
+    });
   }
 
   if (pageSuffix.split('=')[0] === '?keyword') {
@@ -317,39 +298,25 @@ const whichWinType = page => {
 const searchPage = (page, keyword) => {
   let link = `http://localhost:8080/movie/findByKeyword/?keyword=${keyword}&start=${(page - 1) * 24}&count=24`;
   axios.get(link).then(response => {
-    let data = JSON.parse(response.data);
-    let mvData = data.subjects;
-    let totalCount = data.count;
+    let mvData = response.data.subjects;
+    let totalCount = response.data.count[0];
     if (mvData.length === 0) {
       document.getElementById('content').innerHTML = '没有找到任何相关影片';
     }else {
-      show24Item(searchMv, page, totalCount);
+      show24Item(mvData, page, totalCount);
     }
   });
 }
 
-// const tagPage = (page, tag) => {
-//   let data = JSON.parse(sessionStorage.getItem('key'));
-//   let tagMv = data.filter(ele => {
-//     return (ele.genres.indexOf(tag) !== -1);
-//   });
-
-//   if(tagMv.length === 0) {
-//     return document.getElementById('content').innerHTML = '没有找到任何相关影片';
-//   }else {
-//     show24Item(tagMv, page);
-//   }
-// }
 const tagPage = (page, tag) => {
   let link = `http://localhost:8080/movie/findByTag/${encodeURI(tag)}?start=${(page - 1) * 24}&count=24`;
   axios.get(link).then(response => {
-    let data = JSON.parse(response.data);
-    let mvData = data.subjects;
-    let totalCount = data.count;
+    let mvData = response.data.subjects;
+    let totalCount = response.data.count;
     if (mvData.length === 0) {
       document.getElementById('content').innerHTML = '没有找到任何相关影片';
     }else {
-      show24Item(searchMv, page, totalCount);
+      show24Item(mvData, page, totalCount);
     }
   });
 }
@@ -358,7 +325,9 @@ const show24Item = (data, page, totalCount) => {
   contentShow(data);
   let pageTotalCount = Math.ceil(totalCount / 24);
   pageTurningStyle(page, pageTotalCount);
-  return (document.getElementById('next-page').setAttribute('name', `next${page}`));
+  if (pageTotalCount > 1) {
+    return (document.getElementById('next-page').setAttribute('name', `next${page}`));
+  }
 }
 
 const classified = button => {
@@ -368,24 +337,6 @@ const classified = button => {
 const allOpen = () => {
   return window.open('all_page.html');
 }
-
-// window.onload = function () {
-//   if (!sessionStorage.getItem('key')) {
-//     allDataStorage().then(() => {
-//       let allJsonData = [];
-//       for (let i = 1; i <= 3; i++) {
-//         allJsonData = allJsonData.concat(JSON.parse(sessionStorage.getItem(`key${i}`)).subjects);
-//       }
-//       sessionStorage.setItem('key', JSON.stringify(allJsonData));
-//     }).then(() => {
-//       pageTurning();
-//     });
-//   }else {
-//     pageTurning();
-//   }
-
-//   banner();
-// }
 
 window.onload = function () {
   pageTurning();
