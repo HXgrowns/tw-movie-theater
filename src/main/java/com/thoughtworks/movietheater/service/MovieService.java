@@ -26,7 +26,7 @@ public class MovieService {
         List<Movie> movies = movieRepository.findAllByPage(start, count);
 
         countAndMovies.put("count", Collections.singletonList(allCount));
-        countAndMovies.put("subject", movies);
+        countAndMovies.put("subjects", movies);
         return countAndMovies;
     }
 
@@ -36,33 +36,34 @@ public class MovieService {
         List<Movie> movies = movieRepository.findByKeyword(keyword, start, count);
 
         countAndMovies.put("count", Collections.singletonList(keywordCount));
-        countAndMovies.put("subject", movies);
+        countAndMovies.put("subjects", movies);
         return countAndMovies;
     }
 
     public Map<String, List<?>> findByClassification(String classification, int start, int count) {
         Map<String, List<?>> countAndMovies = new HashMap<>();
-        int classfyId;
+        int classifyId;
         switch (classification) {
             case "top250":
-                classfyId = 1;
+                classifyId = 1;
                 break;
             case "coming_soon":
-                classfyId = 2;
+                classifyId = 2;
                 break;
             case "in_theater":
-                classfyId = 3;
+                classifyId = 3;
                 break;
             default:
-                classfyId = 0;
+                classifyId = 0;
                 countAndMovies.put("count", Collections.singletonList("参数输入错误"));
                 return countAndMovies;
         }
-        int classfyCount = movieRepository.calculateCountByClassification(classfyId);
-        List<Movie> movies = movieRepository.findByClassification(classfyId, start, count);
+        int classifyCount = movieRepository.calculateCountByClassification(classifyId);
+        List<Movie> movies = movieRepository.findByClassification(classifyId, start, count);
 
-        countAndMovies.put("count", Collections.singletonList(classfyCount));
-        countAndMovies.put("subject", movies);
+        countAndMovies.put("count", Collections.singletonList(classifyCount));
+        countAndMovies.put("subjects", movies);
+        countAndMovies.put("title", Arrays.asList(classification));
         return countAndMovies;
     }
 
@@ -82,5 +83,12 @@ public class MovieService {
         }
 
         return casts;
+    }
+
+    public Map<String, List> findByTag(String tag, int start, int count) {
+        Map<String, List> mvByTagMap = new LinkedHashMap<>();
+        mvByTagMap.put("count", Arrays.asList(movieRepository.totalCountByTag(tag)));
+        mvByTagMap.put("subjects", movieRepository.findByTag(tag, start, count));
+        return mvByTagMap;
     }
 }

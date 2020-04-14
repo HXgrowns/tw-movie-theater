@@ -32,7 +32,7 @@ public class Movie {
     private String image;
     @Column("summary")
     private String summary;
-    @Column("classification")
+    @Column("movie_classification")
     private int classification;
 
     public int getId() {
