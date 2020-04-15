@@ -116,7 +116,7 @@ const recommendShow = data => {
 
   data.subjects.map((ele) => {
     recommendPart.innerHTML += `<div class="mv-unit" onclick="subPageListen(this)" id="${ele.id}">
-      <img src="${ele.images}" />
+      <img src="${ele.image}" />
       <div class='mv-title'>
         <p>${ele.title}</p>
         <strong>${ele.rating}</strong>
