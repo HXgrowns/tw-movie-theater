@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="never">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/all_page.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/all_page.js"></script>
+    <title>CTT ALL MOVIE</title>
+  </head>
+  <body>
+    <header>
+      <div id="top-menu">
+        <div class="top-menu-content">
+          <ul id="top-left-menu">
+            <li class="list-li">
+              <a href="/"><img src="images/tv.png" /></a>
+            </li>
+            <li class="list-li">
+              <a href="./all_page.html">首页</a>
+            </li>
+            <li class="list-li">
+              <a href="">音乐</a>
+            </li>
+            <li class="list-li">
+                <a href="">电影</a>
+            </li>
+            <li class="list-li">
+              <a href="">读书</a>
+            </li>
+            <li class="list-li">
+              <a href="">游戏</a>
+            </li>
+            <li class="list-li">
+              <a href="">漫画</a>
+            </li>
+            <li class="list-li">
+              <a href="">MORE</a>
+            </li>
+          </ul>
+          <ul id="top-right-menu">
+              <li class="list-li">
+                <a href=""><img id="avatar" src="images/avatar.jpeg"/></a>
+              </li>
+              <li class="list-li">
+                  <a href="">消息</a>
+              </li>
+              <li class="list-li"> 
+                <a href="">收藏</a>
+              </li>
+              <li class="list-li">
+                  <a href="">历史</a>
+              </li>
+              <li class="list-li">
+                  <a href="">动态</a>
+              </li>
+              <li class="list-li">
+                  <a href="">关注</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div id="top-cover">
+        <a href="all_page.html">CHU</a>
+        <div id="search">
+          <div id="ranking">
+            <img src="images/rankfill.png"/>
+            <span>排行榜</span>
+          </div>
+          <div id="search-menu">
+            <input type="text" placeholder="hello哇，你好吗" id="search-input" />
+            <img src="images/search.png" onclick="search()">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="banner" class="banner">
+        <div class="banner-content" id="banner-content">
+          <img src="images/gj.jpg" id="banner-part1" class="banner-part" />
+          <img src="images/zgjz.jpg" id="banner-part2" class="banner-part" />
+          <img src="images/ss.jpg" id="banner-part3" class="banner-part" />
+          <img src="images/sesx.png" id="banner-part4" class="banner-part" />
+          <img src="images/lsqrj.jpg" id="banner-part5" class="banner-part" />
+        </div>
+        <ul id="banner-link">
+          <li id="banner-link1"></li>
+          <li id="banner-link2"></li>
+          <li id="banner-link3"></li>
+          <li id="banner-link4"></li>
+          <li id="banner-link5"></li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <div class="category">
+          <div class="recommend" id="recommend-button">
+            <img src="images/arrow-right.png"/>
+            <button onclick="recommendListen()">推荐</button>
+          </div>
+
+          <div class="all" id="all-button">
+            <img src="images/arrow down.png"/>
+            <button onclick="allOpen()">全部</button>
+          </div>
+
+          <ul class="all-category" id="all-category">
+            <li>
+              <a href="" onclick="classified(this)">剧情</a>
+              <a href="" onclick="classified(this)">家庭</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">奇幻</a>
+              <a href="" onclick="classified(this)">动画</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">爱情</a>
+              <a href="" onclick="classified(this)">同性</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">音乐</a>
+              <a href="" onclick="classified(this)">动作</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">喜剧</a>
+              <a href="" onclick="classified(this)">冒险</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">儿童</a>
+              <a href="" onclick="classified(this)">历史</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">战争</a>
+              <a href="" onclick="classified(this)">犯罪</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">科幻</a>
+              <a href="" onclick="classified(this)">悬疑</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">惊悚</a>
+              <a href="" onclick="classified(this)">武侠</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">纪录片</a>
+              <a href="" onclick="classified(this)">情色</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">灾难</a>
+              <a href="" onclick="classified(this)">传记</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">恐怖</a>
+              <a href="" onclick="classified(this)">歌舞</a>
+            </li>
+            <li>
+              <a href="" onclick="classified(this)">西部</a>
+              <a href="" onclick="classified(this)">古装</a>
+            </li>
+          </ul>
+        </div>
+        <div id="content">
+          <div id="mv-content" class="content-all">
+          </div>
+          
+          <div id="page-turning">
+            <div id="page-number"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span>
+        © 1994～至今 chutt.com, all rights reserved China ctt有限公司
+      </span>
+      <div class="about-link">
+        <a href="">关于c某某 /</a>
+        <a href="">在c公司工作 /</a>
+        <a href="">联系我们 /</a>
+        <a href="">法律声明 /</a>
+        <a href="">帮助中心 /</a>
+        <a href="">广告位招商</a>
+      </div>
+    </footer>
+  </body>
+</html>

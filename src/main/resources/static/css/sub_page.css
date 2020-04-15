@@ -1,0 +1,178 @@
+main {
+  width: 1160px;
+  display: flex;
+  flex-direction: row;
+}
+
+.subpage-content {
+  margin-top: 30px;
+  padding-right: 40px;
+  width: 715px;
+  display: flex;
+  flex-direction: column;
+}
+
+#advertisement {
+  width: 300px;
+  height: 100px;
+  border: 1px solid seagreen;
+}
+
+#mv-card {
+  display: flex;
+  margin-top: 10px;
+}
+
+#mv-card img {
+  width: 135px;
+}
+
+#mv-info {
+  margin: 0 15px;
+  display: flex;
+  flex-direction: column;
+  width: 333px;
+  font-size: 13px;
+}
+
+#rating {
+  width: 171px;
+  padding-left: 15px;
+  border-left: 1px solid #dddddd;
+}
+
+#rating p span {
+  font-size: 12px;
+  color: #9b9b9b;
+}
+
+#rating p strong {
+  font-size: 30px;
+}
+
+#rating-detail {
+  margin: 10px 0 15px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dddddd;
+}
+
+#rating-detail li {
+  display: flex;
+  align-items: center;
+}
+
+#rating-detail span {
+  width: 31.2px;
+  font-size: 12px;
+  color: #9b9b9b;
+}
+
+#rating-detail li div {
+  height: 10px;
+  background-color: #ffd596;
+  margin-right: 5px;
+}
+
+#douban-link {
+  text-decoration: none;
+  color: #27a;
+}
+
+#mv-intro {
+  margin: 20px 0;
+}
+
+h2 {
+  margin: 10px 0;
+  color: #007722;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+#mv-intro p {
+  font-size: 13px;
+  white-space: pre-line;
+  text-indent:2em;
+  line-height: 20px;
+}
+
+#casts {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.cast-unit {
+  margin-right: 15px;
+}
+
+.cast-unit img{
+  width: 95px;
+}
+
+.cast-name {
+  font-size: 12px;
+}
+
+#otherMv {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.other-mv-unit img{
+  width: 95px;
+  height: 141px;
+  overflow: hidden;
+}
+
+.other-mv-unit {
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.other-mv-unit:hover {
+  cursor: pointer;
+}
+
+.other-mv-title {
+  width: 95px;
+  height: auto;
+  font-size: 12px;
+  text-align: center;
+}
+
+.other-mv-title p {
+  display: inline;
+  color: #3477aa;
+}
+
+.other-mv-title strong {
+  color: #e09015;
+}
+
+.commentItem {
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+}
+
+.comment-author-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-author-name {
+  margin-right: 15px;
+  color: #3377aa;
+  text-decoration: none;
+}
+
+.comment-rating {
+  margin-right: 15px;
+  color: #e09015;
+}
+
+.comment-date {
+  color: #aaa;
+}
